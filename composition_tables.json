@@ -1,0 +1,476 @@
+{
+  "description": "QPM directional composition (cone) tables. Cell [R1][R2] = composition of direction R1 (a->b) with R2 (b->c), giving the derived direction set a->c. Single element = definite; multiple = disjunctive; full set = universal (no information).",
+  "four_sector": {
+    "directions": [
+      "N",
+      "E",
+      "S",
+      "W"
+    ],
+    "table": {
+      "N": {
+        "N": [
+          "N"
+        ],
+        "E": [
+          "N",
+          "E"
+        ],
+        "S": [
+          "N",
+          "E",
+          "S",
+          "W"
+        ],
+        "W": [
+          "N",
+          "W"
+        ]
+      },
+      "E": {
+        "N": [
+          "N",
+          "E"
+        ],
+        "E": [
+          "E"
+        ],
+        "S": [
+          "E",
+          "S"
+        ],
+        "W": [
+          "N",
+          "E",
+          "S",
+          "W"
+        ]
+      },
+      "S": {
+        "N": [
+          "N",
+          "E",
+          "S",
+          "W"
+        ],
+        "E": [
+          "E",
+          "S"
+        ],
+        "S": [
+          "S"
+        ],
+        "W": [
+          "S",
+          "W"
+        ]
+      },
+      "W": {
+        "N": [
+          "N",
+          "W"
+        ],
+        "E": [
+          "N",
+          "E",
+          "S",
+          "W"
+        ],
+        "S": [
+          "S",
+          "W"
+        ],
+        "W": [
+          "W"
+        ]
+      }
+    }
+  },
+  "eight_sector": {
+    "directions": [
+      "N",
+      "NE",
+      "E",
+      "SE",
+      "S",
+      "SW",
+      "W",
+      "NW"
+    ],
+    "table": {
+      "N": {
+        "N": [
+          "N"
+        ],
+        "NE": [
+          "N",
+          "NE"
+        ],
+        "E": [
+          "N",
+          "NE",
+          "E"
+        ],
+        "SE": [
+          "N",
+          "NE",
+          "E",
+          "SE"
+        ],
+        "S": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "SW": [
+          "N",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "W": [
+          "N",
+          "W",
+          "NW"
+        ],
+        "NW": [
+          "N",
+          "NW"
+        ]
+      },
+      "NE": {
+        "N": [
+          "N",
+          "NE"
+        ],
+        "NE": [
+          "NE"
+        ],
+        "E": [
+          "NE",
+          "E"
+        ],
+        "SE": [
+          "NE",
+          "E",
+          "SE"
+        ],
+        "S": [
+          "NE",
+          "E",
+          "SE",
+          "S"
+        ],
+        "SW": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "W": [
+          "N",
+          "NE",
+          "W",
+          "NW"
+        ],
+        "NW": [
+          "N",
+          "NE",
+          "NW"
+        ]
+      },
+      "E": {
+        "N": [
+          "N",
+          "NE",
+          "E"
+        ],
+        "NE": [
+          "NE",
+          "E"
+        ],
+        "E": [
+          "E"
+        ],
+        "SE": [
+          "E",
+          "SE"
+        ],
+        "S": [
+          "E",
+          "SE",
+          "S"
+        ],
+        "SW": [
+          "E",
+          "SE",
+          "S",
+          "SW"
+        ],
+        "W": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "NW": [
+          "N",
+          "NE",
+          "E",
+          "NW"
+        ]
+      },
+      "SE": {
+        "N": [
+          "N",
+          "NE",
+          "E",
+          "SE"
+        ],
+        "NE": [
+          "NE",
+          "E",
+          "SE"
+        ],
+        "E": [
+          "E",
+          "SE"
+        ],
+        "SE": [
+          "SE"
+        ],
+        "S": [
+          "SE",
+          "S"
+        ],
+        "SW": [
+          "SE",
+          "S",
+          "SW"
+        ],
+        "W": [
+          "SE",
+          "S",
+          "SW",
+          "W"
+        ],
+        "NW": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ]
+      },
+      "S": {
+        "N": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "NE": [
+          "NE",
+          "E",
+          "SE",
+          "S"
+        ],
+        "E": [
+          "E",
+          "SE",
+          "S"
+        ],
+        "SE": [
+          "SE",
+          "S"
+        ],
+        "S": [
+          "S"
+        ],
+        "SW": [
+          "S",
+          "SW"
+        ],
+        "W": [
+          "S",
+          "SW",
+          "W"
+        ],
+        "NW": [
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ]
+      },
+      "SW": {
+        "N": [
+          "N",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "NE": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "E": [
+          "E",
+          "SE",
+          "S",
+          "SW"
+        ],
+        "SE": [
+          "SE",
+          "S",
+          "SW"
+        ],
+        "S": [
+          "S",
+          "SW"
+        ],
+        "SW": [
+          "SW"
+        ],
+        "W": [
+          "SW",
+          "W"
+        ],
+        "NW": [
+          "SW",
+          "W",
+          "NW"
+        ]
+      },
+      "W": {
+        "N": [
+          "N",
+          "W",
+          "NW"
+        ],
+        "NE": [
+          "N",
+          "NE",
+          "W",
+          "NW"
+        ],
+        "E": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "SE": [
+          "SE",
+          "S",
+          "SW",
+          "W"
+        ],
+        "S": [
+          "S",
+          "SW",
+          "W"
+        ],
+        "SW": [
+          "SW",
+          "W"
+        ],
+        "W": [
+          "W"
+        ],
+        "NW": [
+          "W",
+          "NW"
+        ]
+      },
+      "NW": {
+        "N": [
+          "N",
+          "NW"
+        ],
+        "NE": [
+          "N",
+          "NE",
+          "NW"
+        ],
+        "E": [
+          "N",
+          "NE",
+          "E",
+          "NW"
+        ],
+        "SE": [
+          "N",
+          "NE",
+          "E",
+          "SE",
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "S": [
+          "S",
+          "SW",
+          "W",
+          "NW"
+        ],
+        "SW": [
+          "SW",
+          "W",
+          "NW"
+        ],
+        "W": [
+          "W",
+          "NW"
+        ],
+        "NW": [
+          "NW"
+        ]
+      }
+    }
+  },
+  "self_check": {
+    "four_sector_definite_disjunctive_universal": [
+      4,
+      8,
+      4
+    ],
+    "eight_sector_definite_disjunctive_universal": [
+      8,
+      48,
+      8
+    ]
+  },
+  "source": "Abdelmoty & Al-Muzaini (2016) composition tables; encoded in regeneration_2026-06/frame8/compute_completeness.py (_T4/_T8)."
+}

@@ -1,0 +1,1085 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="https://w3id.org/qpm#"
+     xml:base="https://w3id.org/qpm"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:dct="http://purl.org/dc/terms/"
+     xmlns:geo="http://www.opengis.net/ont/geosparql#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:qpm="https://w3id.org/qpm#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:prez="https://prez.dev/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:vann="http://purl.org/vocab/vann/"
+     xmlns:schema="https://schema.org/">
+    <owl:Ontology rdf:about="https://w3id.org/qpm">
+        <owl:versionIRI rdf:resource="https://w3id.org/qpm/1.0"/>
+        <owl:imports rdf:resource="http://www.opengis.net/ont/geosparql"/>
+        <dc:contributor>Abdurauf Satoti</dc:contributor>
+        <dc:contributor>Hanan Muhajab</dc:contributor>
+        <dc:creator>Alia I. Abdelmoty</dc:creator>
+        <dc:description>The Qualitative Place Model represents the location of places relationally, through containment paths within one or more spatial hierarchies and lateral relations (adjacency, direction, proximity) to peer places, rather than through coordinate geometry alone.</dc:description>
+        <dc:title>Qualitative Place Model (QPM) Ontology</dc:title>
+        <dct:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-06-12</dct:created>
+        <dct:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
+        <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-08-22</dct:modified>
+        <dct:source>Abdelmoty (1995), Qualitative Spatial Representation and Reasoning, and a Geographic Data Model, PhD thesis, Heriot-Watt University: origination of the qualitative frame of reference (three axes), the graded proximity scale (very-close, close, far, very-far by zone decomposition), the composite-object constructs (connected vs disconnected, fused-association, Hollow Enclosure), and the multiple-representation seed of multi-hierarchy. The minimal-storage containment principle appears here, adopted from Worboys and Bafakos.</dct:source>
+        <dct:source>Abdelmoty and Al-Muzaini (2016), Reasoning with Place Information on the Linked Data Web, ALLDATA 2016, and the SemRelLoc journal extension: the first formal Relative Location model (RelLoc), location profiles, the reasoning evaluation, and the salient place layer.</dct:source>
+        <dct:source>Abdelmoty, El-Geresy and Smart (2010), Reasoning with Geospatial Semantics on the Linked Data Web (extended SeCoGIS 2010 paper): restatement of the frame of reference, graded proximity and composite place pattern in the place idiom; Place and Populated-Place definitions for linked data.</dct:source>
+        <dct:source>El-Geresy and Abdelmoty (c.2000 ring-structure formalism, jointly published): the Adjacency-Orientation Matrix, the per-adjacency encoding of orientation.</dct:source>
+        <dct:source>Muhajab (PhD thesis, Cardiff University): the DLIG ontology design pattern, the spatial semantics completeness evaluation and the multi-country instantiation.</dct:source>
+        <dct:source>Satoti and Abdelmoty (2025), A GIS-Native Framework for Qualitative Place Models, ISPRS IJGI: the formal multi-hierarchy treatment and the GIS-native implementation.</dct:source>
+        <rdfs:comment>The Qualitative Place Model represents the location of places relationally, through containment paths within one or more spatial hierarchies and lateral relations (adjacency, direction, proximity) to peer places, rather than through coordinate geometry alone. The model stores a minimal generating set of relations (one-step containment, topological adjacency, one primary neighbour per directional sector) from which the qualitative completion of a scene is derivable by spatial reasoning.</rdfs:comment>
+        <rdfs:label>Qualitative Place Model (QPM) Ontology</rdfs:label>
+        <owl:versionInfo>1.0</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/contributor -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/creator -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/description -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/title -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/title"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/created -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/created"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/license -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/modified -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/source -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/source"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#asWKT -->
+
+    <owl:ObjectProperty rdf:about="http://www.opengis.net/ont/geosparql#asWKT"/>
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#hasGeometry -->
+
+    <owl:ObjectProperty rdf:about="http://www.opengis.net/ont/geosparql#hasGeometry"/>
+    
+
+
+    <!-- https://w3id.org/qpm#basePlaceParent -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#basePlaceParent">
+        <owl:equivalentProperty rdf:resource="https://w3id.org/qpm#partOf"/>
+        <rdfs:comment>Deployment alias for qpm:partOf, retained because the property-graph profile carries the edge type BASE_PLACE_PARENT. New data should use qpm:partOf.</rdfs:comment>
+        <rdfs:label>base place parent (deployment alias)</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#belongsToHierarchy -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#belongsToHierarchy">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:comment>Links a Unit to the single Hierarchy it partitions (cardinality exactly 1, see restrictions).</rdfs:comment>
+        <rdfs:label>belongs to hierarchy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#closeTo -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#closeTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Abdelmoty (1995), interaction-proximity axis and close/far zone decomposition; named in the place idiom in Abdelmoty, El-Geresy and Smart (2010).</dct:source>
+        <rdfs:comment>DERIVED proximity grade: touches-graph distance 1 (equivalent in extension to touches; named separately so the graded vocabulary is complete).</rdfs:comment>
+        <rdfs:label>close to</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#containedBy -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#containedBy">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#inside"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Abdelmoty (1995), minimal-storage containment principle adopted from Worboys and Bafakos; first explicit inside/contains formalisation in Abdelmoty and Al-Muzaini (2016).</dct:source>
+        <rdfs:comment>STORED one-step containment between Units: links a Unit to its single parent Unit. No named inverse is declared: reverse traversal serves in both RDF and the property graph, and a redundant inverse property would only double the stored edges. Model constraints not expressible in OWL (enforced by SHACL and profile validation): parent and child belong to the same Hierarchy, and the parent&apos;s unitLevel is the child&apos;s unitLevel minus 1. The root Unit of a Hierarchy has no parent.</rdfs:comment>
+        <rdfs:label>contained by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#containedByUnit -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#containedByUnit">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#inside"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Abdelmoty (1995), containment hierarchy; place-to-unit form in Satoti and Abdelmoty (2025).</dct:source>
+        <rdfs:comment>STORED one-step containment of a BasicPlace in a Unit: one parent Unit per relevant Hierarchy. A place therefore has one or more containing units, at most one within any single Hierarchy (SHACL-enforced); all further ancestors are derived through the unit hierarchy by the transitivity of inside. No named inverse is declared.</rdfs:comment>
+        <rdfs:label>contained by unit</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#contains -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#contains">
+        <owl:inverseOf rdf:resource="https://w3id.org/qpm#inside"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>DERIVED inverse of inside, transitive.</rdfs:comment>
+        <rdfs:label>contains</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#eastOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#eastOf">
+        <owl:inverseOf rdf:resource="https://w3id.org/qpm#westOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>DERIVED general cardinal direction; transitive, non-functional.</rdfs:comment>
+        <rdfs:label>east of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#farFrom -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#farFrom">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:comment>DERIVED proximity grade: touches-graph distance greater than 2 and at most k_far (application parameter).</rdfs:comment>
+        <rdfs:label>far from</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hasExtraGeometry -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#hasExtraGeometry">
+        <rdfs:subPropertyOf rdf:resource="http://www.opengis.net/ont/geosparql#hasGeometry"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Geometry"/>
+        <rdfs:comment>Links a Place to an additional geometry: an alternative representation, or one geometry per part of a composite place. Unbounded.</rdfs:comment>
+        <rdfs:label>has extra geometry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hasHierarchy -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#hasHierarchy">
+        <owl:inverseOf rdf:resource="https://w3id.org/qpm#hierarchyOf"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Country"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:comment>Associates a Country with the Hierarchies dividing its extent (at least one, see restrictions).</rdfs:comment>
+        <rdfs:label>has hierarchy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hasMainGeometry -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#hasMainGeometry">
+        <rdfs:subPropertyOf rdf:resource="http://www.opengis.net/ont/geosparql#hasGeometry"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Geometry"/>
+        <rdfs:comment>Links a Place to its primary geometry (at most one, see restrictions).</rdfs:comment>
+        <rdfs:label>has main geometry</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hasProvenance -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#hasProvenance">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#PlaceProvenance"/>
+        <rdfs:comment>ANNEX. Links a described place to its provenance record.</rdfs:comment>
+        <rdfs:label>has provenance</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hierarchyOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#hierarchyOf">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Country"/>
+        <rdfs:comment>Inverse of hasHierarchy; each Hierarchy belongs to exactly one Country (see restrictions).</rdfs:comment>
+        <rdfs:label>hierarchy of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#inside -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#inside">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <dct:source>Abdelmoty and Al-Muzaini (2016)</dct:source>
+        <rdfs:comment>DERIVED ancestral containment (rule D2: transitive closure of the stored one-step links); inverse supplied by D1.</rdfs:comment>
+        <rdfs:comment>DERIVED general containment, transitive. Never asserted directly in data: the stored one-step properties (containedBy, containedByUnit, basePlaceParent) are its subproperties, and ancestry is derived by transitivity. This is the relation over which containment reasoning operates.</rdfs:comment>
+        <rdfs:label>inside</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#intersects -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#intersects">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Cross-division semantics in Abdelmoty, Muhajab and Satoti (2024); shared-place inference in Satoti and Abdelmoty (2025).</dct:source>
+        <rdfs:comment>DERIVED intersection between Units of different Hierarchies, by rule D6: units of two hierarchies that share a contained place intersect (the shared place witnesses the non-empty overlap of their extents). Never stored. The reified SpatialRelation pattern (Part B) is the general typed mechanism for cross-hierarchy relations; qpm:intersects is its one member derivable from the graph alone and is therefore named normatively.</rdfs:comment>
+        <rdfs:label>intersects</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#involvedPlace -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#involvedPlace">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#PlaceProvenance"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:comment>ANNEX. A place referenced in the user&apos;s description.</rdfs:comment>
+        <rdfs:label>involved place</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#nearTo -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#nearTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Abdelmoty (1995), graded proximity by zone decomposition (very-close to very-far); compositional near in Abdelmoty, El-Geresy and Smart (2010); graph-distance grades in Muhajab (PhD thesis); parametric near_k in Satoti and Abdelmoty (2025).</dct:source>
+        <rdfs:comment>DERIVED proximity grade: touches-graph distance at most 2. Close composed with close is near; the connecting axiom to the adjacency layer is touches o touches =&gt; nearTo, realised in the rule layer (OWL property chains cannot target a symmetric derived relation safely here, so the chain is documented rather than axiomatised).</rdfs:comment>
+        <rdfs:label>near to</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#northOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#northOf">
+        <owl:inverseOf rdf:resource="https://w3id.org/qpm#southOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <dct:source>Abdelmoty (1995), orientation axis of the frame of reference; Adjacency-Orientation Matrix joint with El-Geresy (c.2000); composition tables in Abdelmoty and Al-Muzaini (2016); cardinal relations in Muhajab (PhD thesis).</dct:source>
+        <rdfs:comment>DERIVED general cardinal direction under the point abstraction; transitive, non-functional. Not asserted in data: seeded by the primary layer and extended by composition.</rdfs:comment>
+        <rdfs:label>north of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#partOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#partOf">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#inside"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <dct:source>Abdelmoty (1995), connected vs disconnected objects, fused-association and Hollow Enclosure; recast as the composite place pattern in Abdelmoty, El-Geresy and Smart (2010).</dct:source>
+        <rdfs:comment>STORED one-step containment of a place within a place: simple nesting (a tower within a castle; a building within a campus) or membership of a part in a CompositePlace. At most one parent (see restrictions); nesting depth is unbounded, and depth within a chain is derived as path length (D2), never stored. Each part of a composite is a simple place with its own unique parent Unit per Hierarchy; the composite&apos;s unit containment is derived as the union over its parts (D2), and its lateral relations from its parts (D7); nothing beyond the membership links is stored. No named inverse is declared; reverse traversal recovers a composite&apos;s parts.</rdfs:comment>
+        <rdfs:label>part of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#primaryEastOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#primaryEastOf">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#eastOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>STORED nearest eastern neighbour per sector. Functional, not transitive. Graph type EAST_OF.</rdfs:comment>
+        <rdfs:label>primary east of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#primaryNorthOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#primaryNorthOf">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#northOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <dct:source>Abdelmoty (1995), orientation axis; formalised as Rnn in Abdelmoty and Al-Muzaini (2016); nearest_N in Muhajab (PhD thesis); primaryDir in Satoti and Abdelmoty (2025).</dct:source>
+        <rdfs:comment>STORED nearest-neighbour-per-sector relation (RelLoc&apos;s Rnn): the subject is the chosen northern neighbour of the object. For Units, the nearest neighbour in the sector among units sharing the same root, with no intervening unit between it and the base unit; in a clean partition this neighbour touches the base unit (the normal case), but where a natural feature separates them (a river, an estuary) the nearest neighbour may not touch and is still the primary, and a sector with no qualifying unit (a coastal edge) correctly has no primary. For BasicPlaces, the candidate neighbours are the places contained in the base place&apos;s parent Unit or in a Unit touching that parent (the parent&apos;s one-ring adjacency neighbourhood); the primary is the nearest candidate in the sector, and a sector with no candidate within the one-ring has no primary. One per sector. Functional and NOT transitive; the inverse of a primary fact is a general directional fact (southOf), not a primary one, so no inverse primary is declared or materialised. In the property graph this relation carries the type NORTH_OF.</rdfs:comment>
+        <rdfs:label>primary north of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#primarySouthOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#primarySouthOf">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#southOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>STORED nearest southern neighbour per sector. Functional, not transitive. Graph type SOUTH_OF.</rdfs:comment>
+        <rdfs:label>primary south of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#primaryWestOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#primaryWestOf">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/qpm#westOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>STORED nearest western neighbour per sector. Functional, not transitive. Graph type WEST_OF.</rdfs:comment>
+        <rdfs:label>primary west of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#relationSource -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#relationSource">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#SpatialRelation"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:comment>ANNEX. The subject Unit of a reified spatial relation.</rdfs:comment>
+        <rdfs:label>relation source</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#relationTarget -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#relationTarget">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#SpatialRelation"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:comment>ANNEX. The object Unit of a reified spatial relation.</rdfs:comment>
+        <rdfs:label>relation target</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#relationType -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#relationType">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#SpatialRelation"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+        <rdfs:comment>ANNEX. The type of a reified spatial relation, drawn from the SpatialRelationshipType vocabulary.</rdfs:comment>
+        <rdfs:label>relation type</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#southOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#southOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>DERIVED general cardinal direction; transitive, non-functional.</rdfs:comment>
+        <rdfs:label>south of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#touches -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#touches">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <dct:source>Muhajab (PhD thesis, topological semantics TS1); Satoti and Abdelmoty (2025)</dct:source>
+        <rdfs:comment>STORED topological adjacency between Units at the same level of the same Hierarchy: a shared, non-empty boundary intersection. The full adjacency structure is materialised. In the normal partition case a unit&apos;s directional primaries are drawn from its touching neighbours (one per sector); proximity grades are derived from the touches graph. Related to geo:sfTouches by intent; kept local because QPM constrains the relation to same-level, same-hierarchy pairs.</rdfs:comment>
+        <rdfs:label>touches</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#veryFarFrom -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#veryFarFrom">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:comment>DERIVED proximity grade: touches-graph distance greater than k_far (application parameter).</rdfs:comment>
+        <rdfs:label>very far from</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#westOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/qpm#westOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:comment>DERIVED general cardinal direction; transitive, non-functional.</rdfs:comment>
+        <rdfs:label>west of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/qpm#describedRelationship -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#describedRelationship">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#PlaceProvenance"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>ANNEX. A qualitative relation used in the user&apos;s description of the place.</rdfs:comment>
+        <rdfs:label>described relationship</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#geometryRole -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#geometryRole">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Geometry"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Convenience attribute, &apos;main&apos; or &apos;extra&apos;; derivable from whether the geometry is linked by hasMainGeometry or hasExtraGeometry, retained for query convenience in the property graph.</rdfs:comment>
+        <rdfs:label>geometry role</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hierarchyLevels -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#hierarchyLevels">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The number of levels in the Hierarchy, a fact about its source.</rdfs:comment>
+        <rdfs:label>hierarchy levels</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#hierarchyName -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#hierarchyName">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The Hierarchy&apos;s name (for example Admin, Electoral, Postal, OS, H3, S2, GADM).</rdfs:comment>
+        <rdfs:label>hierarchy name</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeFunction -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeFunction">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The BasicPlace&apos;s functional role, where distinct from its category.</rdfs:comment>
+        <rdfs:label>place function</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeH3 -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeH3">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>ANNEX. H3 cell index associated with the place, as text.</rdfs:comment>
+        <rdfs:label>place H3 index</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeName -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeName">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The BasicPlace&apos;s name.</rdfs:comment>
+        <rdfs:label>place name</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeOrigin -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeOrigin">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>ANNEX. &apos;sourced&apos; (populated from an external dataset, geometry given) or &apos;described&apos; (defined by a user&apos;s qualitative description, geometry derived from the describing relations). Replaces the retired flags model_source and geometry_source; legacy values map forward (basic, given to sourced; salient, computed to described).</rdfs:comment>
+        <rdfs:label>place origin</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeS2 -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeS2">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>ANNEX. S2 cell index associated with the place, as text.</rdfs:comment>
+        <rdfs:label>place S2 index</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#placeType -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#placeType">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The BasicPlace&apos;s category.</rdfs:comment>
+        <rdfs:label>place type</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#sourceDataset -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#sourceDataset">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The name or IRI of the authoritative dataset the entity was populated from (for example an Ordnance Survey or DataMapWales product).</rdfs:comment>
+        <rdfs:label>source dataset</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#sourceId -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#sourceId">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <dct:source>Muhajab (PhD thesis, AGI_ID)</dct:source>
+        <rdfs:comment>The entity&apos;s identifier in its authoritative source dataset (the AGI identifier). Together with sourceDataset, this makes the populated graph joinable back to its origins and identity stable across regenerations and multi-source integration.</rdfs:comment>
+        <rdfs:label>source identifier</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#unitH3 -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#unitH3">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>ANNEX. H3 cell index associated with the Unit, as text.</rdfs:comment>
+        <rdfs:label>unit H3 index</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#unitLevel -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#unitLevel">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The Unit&apos;s level within its Hierarchy: 0 for the root, increasing downward. Semantically meaningful (it names a tier defined by the issuing authority and shared by all units at that tier), which is why it is stored, in contrast to nesting depth among BasicPlaces, which is positional only and derived.</rdfs:comment>
+        <rdfs:label>unit level</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#unitName -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#unitName">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The Unit&apos;s name.</rdfs:comment>
+        <rdfs:label>unit name</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#unitType -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#unitType">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Unit"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The Unit&apos;s category within its hierarchy (for example community, ward, postcode district, S2 face cell).</rdfs:comment>
+        <rdfs:label>unit type</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/qpm#unitsNumber -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/qpm#unitsNumber">
+        <rdfs:domain rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The number of Units in the Hierarchy. A maintained statistic, not asserted ground truth; derivable by counting.</rdfs:comment>
+        <rdfs:label>units number</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#Feature -->
+
+    <owl:Class rdf:about="http://www.opengis.net/ont/geosparql#Feature"/>
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#Geometry -->
+
+    <owl:Class rdf:about="http://www.opengis.net/ont/geosparql#Geometry"/>
+    
+
+
+    <!-- http://www.opengis.net/ont/geosparql#wktLiteral -->
+
+    <owl:Class rdf:about="http://www.opengis.net/ont/geosparql#wktLiteral"/>
+    
+
+
+    <!-- https://w3id.org/qpm#BasicPlace -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#BasicPlace">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#containedByUnit"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Unit"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#basePlaceParent"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#BasicPlace"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dct:source>Abdelmoty, El-Geresy and Smart (2010); Satoti and Abdelmoty (2025)</dct:source>
+        <rdfs:comment>A named location, typically point-located (a landmark, settlement, or facility): the kind of place humans reference in spatial discourse. A BasicPlace is contained in at most one Unit per Hierarchy; this per-hierarchy uniqueness is not expressible in OWL and is enforced by the companion SHACL shape (qpm-shapes.ttl). In the property-graph profile this class carries the node label Place.</rdfs:comment>
+        <rdfs:label>Basic Place</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#CompositePlace -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#CompositePlace">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/qpm#Place"/>
+        <dct:source>Abdelmoty (1995), disconnected composite objects; the composite place pattern in Abdelmoty, El-Geresy and Smart (2010).</dct:source>
+        <rdfs:comment>A place composed of two or more disconnected parts (a split university campus), linked to it by qpm:partOf. A composite stores only its membership links: its unit containment is derived as the union of its parts&apos; containment, and its lateral relations (direction, proximity) are derived from its parts by rule D7, definitely where the parts agree and disjunctively where they differ, so a dispersed composite is never assigned a single manufactured bearing.</rdfs:comment>
+        <rdfs:label>Composite Place</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#Country -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#Country">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#hasHierarchy"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dct:source>Muhajab (PhD thesis); Satoti implementation</dct:source>
+        <rdfs:comment>The anchor associating one or more Hierarchies with a national extent. Country is a freestanding grouping class, not a Unit: each Hierarchy independently has its own root Unit at level 0, which may represent the same real-world country.</rdfs:comment>
+        <rdfs:label>Country</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#Geometry -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#Geometry">
+        <rdfs:subClassOf rdf:resource="http://www.opengis.net/ont/geosparql#Geometry"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.opengis.net/ont/geosparql#asWKT"/>
+                <owl:someValuesFrom rdf:resource="http://www.opengis.net/ont/geosparql#wktLiteral"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>A WKT geometry serving a Place in a stated role: one main geometry at most, and any number of extra geometries (alternative representations, or one geometry per part of a composite place).</rdfs:comment>
+        <rdfs:label>Geometry</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#Hierarchy -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#Hierarchy">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#hierarchyOf"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dct:source>Abdelmoty (1995), multiple representation (a city as school-districts or administrative-districts), the seed of multi-hierarchy; place-idiom mention in Abdelmoty, El-Geresy and Smart (2010); formal treatment in Satoti and Abdelmoty (2025) and Muhajab (PhD thesis, as GeoHierarchy).</dct:source>
+        <rdfs:comment>A named multi-level division of space. Hierarchies are of two kinds with identical structure: authoritative hierarchies populated from administrative, electoral, postal or mapping-agency divisions, and abstract hierarchies (such as GADM, H3, S2) that parallel the authoritative ones so the model operates uniformly where authoritative divisions are missing. Every Hierarchy has one or more root Units at level 0. Single-rooted hierarchies (such as administrative divisions under a national root) and multi-rooted hierarchies (such as postcode areas) are both admitted.</rdfs:comment>
+        <rdfs:label>Hierarchy</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#Place -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#Place">
+        <rdfs:subClassOf rdf:resource="http://www.opengis.net/ont/geosparql#Feature"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#hasMainGeometry"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Geometry"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dct:source>Abdelmoty, El-Geresy and Smart (2010); Satoti and Abdelmoty (2025)</dct:source>
+        <rdfs:comment>A semantic spatial entity participating in qualitative spatial relations. Place is the superclass unifying spatial units and named places: both are treated homogeneously, differentiated only where geometry forces it. A Place&apos;s location is defined by its containment path within each relevant Hierarchy and by its lateral relations to peers; geometry is an attribute of a Place, not the definition of its location.</rdfs:comment>
+        <rdfs:label>Place</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#PlaceProvenance -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#PlaceProvenance">
+        <rdfs:comment>ANNEX. The record of how a described place was defined: the qualitative relations the user supplied and the places they reference. Provisional vocabulary; expected to be strengthened toward PROV-O alignment when the user-described-places work is published.</rdfs:comment>
+        <rdfs:label>Place Provenance</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#SpatialRelation -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#SpatialRelation">
+        <rdfs:comment>ANNEX. A reified spatial relation between two Units, used to express typed cross-hierarchy relations: the type qualifies this relation instance, not either Unit. Derived on demand; never stored.</rdfs:comment>
+        <rdfs:label>Spatial Relation (reified)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#SpatialRelationshipType -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#SpatialRelationshipType">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://w3id.org/qpm#AncestorCompleteContainment"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#AncestorPartialContainment"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Close"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#CompleteContainment"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#DirectParentContainment"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#DirectParentPartialContainment"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Disjoint"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Far"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#HierarchicalOverlap"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#HierarchicalTouch"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Identical"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Intersect"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Near"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Neighbour"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Overlap"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#Touches"/>
+                    <rdf:Description rdf:about="https://w3id.org/qpm#VeryFar"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment>ANNEX. Working taxonomy of derivable spatial relation types, principally for cross-hierarchy extraction. Definitions pending optimisation (overlapping pairs such as Overlap/Intersect and Touches/Neighbour are known); the proximity-grade values (Close, Near, Far, VeryFar) delegate to the normative graded proximity definitions. One member, Intersect, is derivable from the graph alone via shared-place inference: a place contained in units of two hierarchies witnesses their intersection.</rdfs:comment>
+        <rdfs:label>Spatial Relationship Type</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/qpm#Unit -->
+
+    <owl:Class rdf:about="https://w3id.org/qpm#Unit">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/qpm#Place"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#belongsToHierarchy"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/qpm#containedBy"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/qpm#Unit"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dct:source>Abdelmoty and Al-Muzaini (2016); Satoti and Abdelmoty (2025); Muhajab (PhD thesis, as GeoUnit)</dct:source>
+        <rdfs:comment>A fiat polygonal region forming part of the partition at one level of exactly one Hierarchy (for example a community, ward, postcode district, or grid cell). Precondition on populated data, not expressible in OWL: each level of a Hierarchy partitions the extent of the level above it without gaps or overlaps.</rdfs:comment>
+        <rdfs:label>Unit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/qpm#AncestorCompleteContainment -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#AncestorCompleteContainment">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#AncestorPartialContainment -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#AncestorPartialContainment">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Close -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Close">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#CompleteContainment -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#CompleteContainment">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#DirectParentContainment -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#DirectParentContainment">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#DirectParentPartialContainment -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#DirectParentPartialContainment">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Disjoint -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Disjoint">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Far -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Far">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#GADM -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#GADM">
+        <rdf:type rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <hierarchyName>GADM</hierarchyName>
+        <rdfs:comment>Exemplar abstract hierarchy: the Global Administrative Areas dataset, used as a substitute administrative division of space where an authoritative national hierarchy is missing. Its levels (GADM 0 country, 1 first-level division, 2 second-level, and so on) populate as ordinary Units with containedBy between adjacent levels, exactly as an authoritative hierarchy does. Muhajab additionally uses GADM levels to guide which levels of different hierarchies meaningfully interact when deriving cross-hierarchy relations; that level-correspondence is a method that consumes this hierarchy, not a feature of the hierarchy declaration itself.</rdfs:comment>
+        <rdfs:label>GADM</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#H3 -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#H3">
+        <rdf:type rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <hierarchyName>H3</hierarchyName>
+        <rdfs:comment>Exemplar abstract hierarchy: the H3 discrete global grid. Grid cells at each resolution are Units; a finer cell is containedBy its coarser parent cell, giving a uniform hierarchical division of space independent of any authoritative boundaries. Places relate to H3 cells with the ordinary containedByUnit relation.</rdfs:comment>
+        <rdfs:label>H3</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#HierarchicalOverlap -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#HierarchicalOverlap">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#HierarchicalTouch -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#HierarchicalTouch">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Identical -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Identical">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Intersect -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Intersect">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Near -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Near">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Neighbour -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Neighbour">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Overlap -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Overlap">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#S2 -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#S2">
+        <rdf:type rdf:resource="https://w3id.org/qpm#Hierarchy"/>
+        <hierarchyName>S2</hierarchyName>
+        <rdfs:comment>Exemplar abstract hierarchy: the S2 discrete global grid, expressed as for H3. S2 cells are Units in a containment hierarchy by cell level. Present in the sample data as level-0 face cells.</rdfs:comment>
+        <rdfs:label>S2</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#Touches -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#Touches">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- https://w3id.org/qpm#VeryFar -->
+
+    <owl:NamedIndividual rdf:about="https://w3id.org/qpm#VeryFar">
+        <rdf:type rdf:resource="https://w3id.org/qpm#SpatialRelationshipType"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29) https://github.com/owlcs/owlapi -->
+

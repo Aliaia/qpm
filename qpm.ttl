@@ -1,0 +1,641 @@
+@prefix qpm:  <https://w3id.org/qpm#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo:  <http://www.opengis.net/ont/geosparql#> .
+@prefix dc:   <http://purl.org/dc/elements/1.1/> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+
+###############################################################################
+# The Qualitative Place Model (QPM) Ontology, version 1.0
+#
+# This file is the canonical, authoritative serialisation of the
+# model. The accompanying paper gives the formal treatment and the
+# rationale.
+#
+# Terminology mapping (paper Table 1 <-> this file):
+#   in (stored one-step)      = qpm:containedBy (unit) / qpm:containedByUnit (place)
+#   in* (ancestral, derived)  = qpm:inside          contains = qpm:contains
+#   touches                   = qpm:touches
+#   primary_d (stored)        = qpm:primaryNorthOf / _south_of / _east_of / _west_of
+#   dir_d (derived)           = qpm:northOf / southOf / eastOf / westOf
+#   near_g (derived)          = qpm:closeTo / nearTo / farFrom / veryFarFrom
+#   intersects (derived)      = qpm:intersects
+#   partOf (stored)           = qpm:partOf  (deployment alias: basePlaceParent)
+# Derivation rules D1-D7 are those of the paper's Section 5; each derived
+# property's comment names the rule that yields it.
+#
+# Structure of this file:
+#   Part A  Normative core (the version 1.0 stable surface)
+#   Part B  Non-normative annex (documented, outside the stable surface)
+#   Constraints not expressible in OWL are stated in rdfs:comment text and
+#   enforced by the companion SHACL shapes file (qpm-shapes.ttl) and by the
+#   validation queries in the property-graph profile.
+###############################################################################
+
+<https://w3id.org/qpm> a owl:Ontology ;
+    rdfs:label "Qualitative Place Model (QPM) Ontology" ;
+    dc:title "Qualitative Place Model (QPM) Ontology" ;
+    dc:description "The Qualitative Place Model represents the location of places relationally, through containment paths within one or more spatial hierarchies and lateral relations (adjacency, direction, proximity) to peer places, rather than through coordinate geometry alone." ;
+    rdfs:comment "The Qualitative Place Model represents the location of places relationally, through containment paths within one or more spatial hierarchies and lateral relations (adjacency, direction, proximity) to peer places, rather than through coordinate geometry alone. The model stores a minimal generating set of relations (one-step containment, topological adjacency, one primary neighbour per directional sector) from which the qualitative completion of a scene is derivable by spatial reasoning." ;
+    dc:creator "Alia I. Abdelmoty" ;
+    dc:contributor "Abdurauf Satoti" , "Hanan Muhajab" ;
+    dct:created "2026-06-12"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/qpm/1.0> ;
+    owl:versionInfo "1.0" ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dct:modified "2026-08-22"^^xsd:date ;
+    dct:source "Abdelmoty (1995), Qualitative Spatial Representation and Reasoning, and a Geographic Data Model, PhD thesis, Heriot-Watt University: origination of the qualitative frame of reference (three axes), the graded proximity scale (very-close, close, far, very-far by zone decomposition), the composite-object constructs (connected vs disconnected, fused-association, Hollow Enclosure), and the multiple-representation seed of multi-hierarchy. The minimal-storage containment principle appears here, adopted from Worboys and Bafakos." ,
+               "El-Geresy and Abdelmoty (c.2000 ring-structure formalism, jointly published): the Adjacency-Orientation Matrix, the per-adjacency encoding of orientation." ,
+               "Abdelmoty, El-Geresy and Smart (2010), Reasoning with Geospatial Semantics on the Linked Data Web (extended SeCoGIS 2010 paper): restatement of the frame of reference, graded proximity and composite place pattern in the place idiom; Place and Populated-Place definitions for linked data." ,
+               "Abdelmoty and Al-Muzaini (2016), Reasoning with Place Information on the Linked Data Web, ALLDATA 2016, and the SemRelLoc journal extension: the first formal Relative Location model (RelLoc), location profiles, the reasoning evaluation, and the salient place layer." ,
+               "Satoti and Abdelmoty (2025), A GIS-Native Framework for Qualitative Place Models, ISPRS IJGI: the formal multi-hierarchy treatment and the GIS-native implementation." ,
+               "Muhajab (PhD thesis, Cardiff University): the DLIG ontology design pattern, the spatial semantics completeness evaluation and the multi-country instantiation." ;
+    owl:imports <http://www.opengis.net/ont/geosparql> .
+
+###############################################################################
+# PART A. NORMATIVE CORE
+###############################################################################
+
+#------------------------------------------------------------------------------
+# A.1 Classes
+#------------------------------------------------------------------------------
+
+qpm:Place a owl:Class ;
+    rdfs:subClassOf geo:Feature ;
+    rdfs:label "Place" ;
+    rdfs:comment "A semantic spatial entity participating in qualitative spatial relations. Place is the superclass unifying spatial units and named places: both are treated homogeneously, differentiated only where geometry forces it. A Place's location is defined by its containment path within each relevant Hierarchy and by its lateral relations to peers; geometry is an attribute of a Place, not the definition of its location." ;
+    dct:source "Abdelmoty, El-Geresy and Smart (2010); Satoti and Abdelmoty (2025)" .
+
+qpm:Unit a owl:Class ;
+    rdfs:subClassOf qpm:Place ;
+    rdfs:label "Unit" ;
+    rdfs:comment "A fiat polygonal region forming part of the partition at one level of exactly one Hierarchy (for example a community, ward, postcode district, or grid cell). Precondition on populated data, not expressible in OWL: each level of a Hierarchy partitions the extent of the level above it without gaps or overlaps." ;
+    dct:source "Abdelmoty and Al-Muzaini (2016); Satoti and Abdelmoty (2025); Muhajab (PhD thesis, as GeoUnit)" .
+
+qpm:BasicPlace a owl:Class ;
+    rdfs:subClassOf qpm:Place ;
+    rdfs:label "Basic Place" ;
+    rdfs:comment "A named location, typically point-located (a landmark, settlement, or facility): the kind of place humans reference in spatial discourse. A BasicPlace is contained in at most one Unit per Hierarchy; this per-hierarchy uniqueness is not expressible in OWL and is enforced by the companion SHACL shape (qpm-shapes.ttl). In the property-graph profile this class carries the node label Place." ;
+    dct:source "Abdelmoty, El-Geresy and Smart (2010); Satoti and Abdelmoty (2025)" .
+
+qpm:CompositePlace a owl:Class ;
+    rdfs:subClassOf qpm:Place ;
+    rdfs:label "Composite Place" ;
+    rdfs:comment "A place composed of two or more disconnected parts (a split university campus), linked to it by qpm:partOf. A composite stores only its membership links: its unit containment is derived as the union of its parts' containment, and its lateral relations (direction, proximity) are derived from its parts by rule D7, definitely where the parts agree and disjunctively where they differ, so a dispersed composite is never assigned a single manufactured bearing." ;
+    dct:source "Abdelmoty (1995), disconnected composite objects; the composite place pattern in Abdelmoty, El-Geresy and Smart (2010)." .
+
+qpm:Hierarchy a owl:Class ;
+    rdfs:label "Hierarchy" ;
+    rdfs:comment "A named multi-level division of space. Hierarchies are of two kinds with identical structure: authoritative hierarchies populated from administrative, electoral, postal or mapping-agency divisions, and abstract hierarchies (such as GADM, H3, S2) that parallel the authoritative ones so the model operates uniformly where authoritative divisions are missing. Every Hierarchy has one or more root Units at level 0. Single-rooted hierarchies (such as administrative divisions under a national root) and multi-rooted hierarchies (such as postcode areas) are both admitted." ;
+    dct:source "Abdelmoty (1995), multiple representation (a city as school-districts or administrative-districts), the seed of multi-hierarchy; place-idiom mention in Abdelmoty, El-Geresy and Smart (2010); formal treatment in Satoti and Abdelmoty (2025) and Muhajab (PhD thesis, as GeoHierarchy)." .
+
+qpm:Country a owl:Class ;
+    rdfs:label "Country" ;
+    rdfs:comment "The anchor associating one or more Hierarchies with a national extent. Country is a freestanding grouping class, not a Unit: each Hierarchy independently has its own root Unit at level 0, which may represent the same real-world country." ;
+    dct:source "Muhajab (PhD thesis); Satoti implementation" .
+
+qpm:Geometry a owl:Class ;
+    rdfs:subClassOf geo:Geometry ;
+    rdfs:label "Geometry" ;
+    rdfs:comment "A WKT geometry serving a Place in a stated role: one main geometry at most, and any number of extra geometries (alternative representations, or one geometry per part of a composite place)." .
+
+#------------------------------------------------------------------------------
+# A.2 Containment (the two-layer architecture: stored one-step links are
+#     subproperties of the derived transitive relation)
+#------------------------------------------------------------------------------
+
+qpm:inside a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:comment "DERIVED ancestral containment (rule D2: transitive closure of the stored one-step links); inverse supplied by D1." ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "inside" ;
+    owl:inverseOf qpm:contains ;
+    rdfs:comment "DERIVED general containment, transitive. Never asserted directly in data: the stored one-step properties (containedBy, containedByUnit, basePlaceParent) are its subproperties, and ancestry is derived by transitivity. This is the relation over which containment reasoning operates." ;
+    dct:source "Abdelmoty and Al-Muzaini (2016)" .
+
+qpm:contains a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "contains" ;
+    owl:inverseOf qpm:inside ;
+    rdfs:comment "DERIVED inverse of inside, transitive." .
+
+qpm:containedBy a owl:ObjectProperty ;
+    rdfs:subPropertyOf qpm:inside ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "contained by" ;
+    rdfs:comment "STORED one-step containment between Units: links a Unit to its single parent Unit. No named inverse is declared: reverse traversal serves in both RDF and the property graph, and a redundant inverse property would only double the stored edges. Model constraints not expressible in OWL (enforced by SHACL and profile validation): parent and child belong to the same Hierarchy, and the parent's unitLevel is the child's unitLevel minus 1. The root Unit of a Hierarchy has no parent." ;
+    dct:source "Abdelmoty (1995), minimal-storage containment principle adopted from Worboys and Bafakos; first explicit inside/contains formalisation in Abdelmoty and Al-Muzaini (2016)." .
+
+qpm:containedByUnit a owl:ObjectProperty ;
+    rdfs:subPropertyOf qpm:inside ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "contained by unit" ;
+    rdfs:comment "STORED one-step containment of a BasicPlace in a Unit: one parent Unit per relevant Hierarchy. A place therefore has one or more containing units, at most one within any single Hierarchy (SHACL-enforced); all further ancestors are derived through the unit hierarchy by the transitivity of inside. No named inverse is declared." ;
+    dct:source "Abdelmoty (1995), containment hierarchy; place-to-unit form in Satoti and Abdelmoty (2025)." .
+
+qpm:belongsToHierarchy a owl:ObjectProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Hierarchy ;
+    rdfs:label "belongs to hierarchy" ;
+    rdfs:comment "Links a Unit to the single Hierarchy it partitions (cardinality exactly 1, see restrictions)." .
+
+#------------------------------------------------------------------------------
+# A.3 Place nesting and composite places (the 2010 composite pattern)
+#------------------------------------------------------------------------------
+
+qpm:partOf a owl:ObjectProperty ;
+    rdfs:subPropertyOf qpm:inside ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "part of" ;
+    rdfs:comment "STORED one-step containment of a place within a place: simple nesting (a tower within a castle; a building within a campus) or membership of a part in a CompositePlace. At most one parent (see restrictions); nesting depth is unbounded, and depth within a chain is derived as path length (D2), never stored. Each part of a composite is a simple place with its own unique parent Unit per Hierarchy; the composite's unit containment is derived as the union over its parts (D2), and its lateral relations from its parts (D7); nothing beyond the membership links is stored. No named inverse is declared; reverse traversal recovers a composite's parts." ;
+    dct:source "Abdelmoty (1995), connected vs disconnected objects, fused-association and Hollow Enclosure; recast as the composite place pattern in Abdelmoty, El-Geresy and Smart (2010)." .
+
+qpm:basePlaceParent a owl:ObjectProperty ;
+    owl:equivalentProperty qpm:partOf ;
+    rdfs:label "base place parent (deployment alias)" ;
+    rdfs:comment "Deployment alias for qpm:partOf, retained because the property-graph profile carries the edge type BASE_PLACE_PARENT. New data should use qpm:partOf." .
+
+#------------------------------------------------------------------------------
+# A.4 Topological adjacency
+#------------------------------------------------------------------------------
+
+qpm:touches a owl:ObjectProperty , owl:SymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "touches" ;
+    rdfs:comment "STORED topological adjacency between Units at the same level of the same Hierarchy: a shared, non-empty boundary intersection. The full adjacency structure is materialised. In the normal partition case a unit's directional primaries are drawn from its touching neighbours (one per sector); proximity grades are derived from the touches graph. Related to geo:sfTouches by intent; kept local because QPM constrains the relation to same-level, same-hierarchy pairs." ;
+    dct:source "Muhajab (PhD thesis, topological semantics TS1); Satoti and Abdelmoty (2025)" .
+
+#------------------------------------------------------------------------------
+# A.5 Direction (the two-layer architecture: stored functional primaries are
+#     subproperties of derived transitive general relations)
+#
+#     The general relations are transitive and non-functional; the primary
+#     relations are functional and MUST NOT be declared transitive (a
+#     functional, chain-forming relation declared transitive lets a reasoner
+#     infer owl:sameAs between distinct places). The subproperty axioms let
+#     stored primary facts seed the general layer, whose transitivity then
+#     carries the propagation. The default directional frame is 4 equal
+#     half-open sectors (N, E, S, W); the frame is a declared parameter of
+#     the model, not a fixed feature.
+#------------------------------------------------------------------------------
+
+qpm:northOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "north of" ;
+    owl:inverseOf qpm:southOf ;
+    rdfs:comment "DERIVED general cardinal direction under the point abstraction; transitive, non-functional. Not asserted in data: seeded by the primary layer and extended by composition." ;
+    dct:source "Abdelmoty (1995), orientation axis of the frame of reference; Adjacency-Orientation Matrix joint with El-Geresy (c.2000); composition tables in Abdelmoty and Al-Muzaini (2016); cardinal relations in Muhajab (PhD thesis)." .
+
+qpm:southOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "south of" ;
+    owl:inverseOf qpm:northOf ;
+    rdfs:comment "DERIVED general cardinal direction; transitive, non-functional." .
+
+qpm:eastOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "east of" ;
+    owl:inverseOf qpm:westOf ;
+    rdfs:comment "DERIVED general cardinal direction; transitive, non-functional." .
+
+qpm:westOf a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "west of" ;
+    owl:inverseOf qpm:eastOf ;
+    rdfs:comment "DERIVED general cardinal direction; transitive, non-functional." .
+
+qpm:primaryNorthOf a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf qpm:northOf ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "primary north of" ;
+    rdfs:comment "STORED nearest-neighbour-per-sector relation (RelLoc's Rnn): the subject is the chosen northern neighbour of the object. For Units, the nearest neighbour in the sector among units sharing the same root, with no intervening unit between it and the base unit; in a clean partition this neighbour touches the base unit (the normal case), but where a natural feature separates them (a river, an estuary) the nearest neighbour may not touch and is still the primary, and a sector with no qualifying unit (a coastal edge) correctly has no primary. For BasicPlaces, the candidate neighbours are the places contained in the base place's parent Unit or in a Unit touching that parent (the parent's one-ring adjacency neighbourhood); the primary is the nearest candidate in the sector, and a sector with no candidate within the one-ring has no primary. One per sector. Functional and NOT transitive; the inverse of a primary fact is a general directional fact (southOf), not a primary one, so no inverse primary is declared or materialised. In the property graph this relation carries the type NORTH_OF." ;
+    dct:source "Abdelmoty (1995), orientation axis; formalised as Rnn in Abdelmoty and Al-Muzaini (2016); nearest_N in Muhajab (PhD thesis); primaryDir in Satoti and Abdelmoty (2025)." .
+
+qpm:primarySouthOf a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf qpm:southOf ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "primary south of" ;
+    rdfs:comment "STORED nearest southern neighbour per sector. Functional, not transitive. Graph type SOUTH_OF." .
+
+qpm:primaryEastOf a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf qpm:eastOf ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "primary east of" ;
+    rdfs:comment "STORED nearest eastern neighbour per sector. Functional, not transitive. Graph type EAST_OF." .
+
+qpm:primaryWestOf a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf qpm:westOf ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Place ;
+    rdfs:label "primary west of" ;
+    rdfs:comment "STORED nearest western neighbour per sector. Functional, not transitive. Graph type WEST_OF." .
+
+#------------------------------------------------------------------------------
+# A.5b Cross-hierarchy intersection (derived, never stored)
+#------------------------------------------------------------------------------
+
+qpm:intersects a owl:ObjectProperty , owl:SymmetricProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "intersects" ;
+    rdfs:comment "DERIVED intersection between Units of different Hierarchies, by rule D6: units of two hierarchies that share a contained place intersect (the shared place witnesses the non-empty overlap of their extents). Never stored. The reified SpatialRelation pattern (Part B) is the general typed mechanism for cross-hierarchy relations; qpm:intersects is its one member derivable from the graph alone and is therefore named normatively." ;
+    dct:source "Cross-division semantics in Abdelmoty, Muhajab and Satoti (2024); shared-place inference in Satoti and Abdelmoty (2025)." .
+
+#------------------------------------------------------------------------------
+# A.6 Proximity (derived, never stored)
+#
+#     Grades are functions of touches-graph distance d within one level of
+#     one hierarchy: close is d = 1; near is d <= 2 (close composed with
+#     close is near, per the 2010 definition); far is 2 < d <= k_far; very
+#     far is d > k_far, with k_far an application parameter. Grades are
+#     irreflexive, symmetric and monotone. For BasicPlaces the default is
+#     host-derived proximity: places are near if their host units are near.
+#     Nothing is materialised; grades are derived by traversal over touches.
+#     The grade properties are declared so reasoning and queries can name
+#     them; data never asserts them.
+#------------------------------------------------------------------------------
+
+qpm:closeTo a owl:ObjectProperty , owl:SymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "close to" ;
+    rdfs:comment "DERIVED proximity grade: touches-graph distance 1 (equivalent in extension to touches; named separately so the graded vocabulary is complete)." ;
+    dct:source "Abdelmoty (1995), interaction-proximity axis and close/far zone decomposition; named in the place idiom in Abdelmoty, El-Geresy and Smart (2010)." .
+
+qpm:nearTo a owl:ObjectProperty , owl:SymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "near to" ;
+    rdfs:comment "DERIVED proximity grade: touches-graph distance at most 2. Close composed with close is near; the connecting axiom to the adjacency layer is touches o touches => nearTo, realised in the rule layer (OWL property chains cannot target a symmetric derived relation safely here, so the chain is documented rather than axiomatised)." ;
+    dct:source "Abdelmoty (1995), graded proximity by zone decomposition (very-close to very-far); compositional near in Abdelmoty, El-Geresy and Smart (2010); graph-distance grades in Muhajab (PhD thesis); parametric near_k in Satoti and Abdelmoty (2025)." .
+
+qpm:farFrom a owl:ObjectProperty , owl:SymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "far from" ;
+    rdfs:comment "DERIVED proximity grade: touches-graph distance greater than 2 and at most k_far (application parameter)." .
+
+qpm:veryFarFrom a owl:ObjectProperty , owl:SymmetricProperty , owl:IrreflexiveProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "very far from" ;
+    rdfs:comment "DERIVED proximity grade: touches-graph distance greater than k_far (application parameter)." .
+
+#------------------------------------------------------------------------------
+# A.7 Geometry linkage
+#------------------------------------------------------------------------------
+
+qpm:hasMainGeometry a owl:ObjectProperty ;
+    rdfs:subPropertyOf geo:hasGeometry ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Geometry ;
+    rdfs:label "has main geometry" ;
+    rdfs:comment "Links a Place to its primary geometry (at most one, see restrictions)." .
+
+qpm:hasExtraGeometry a owl:ObjectProperty ;
+    rdfs:subPropertyOf geo:hasGeometry ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  qpm:Geometry ;
+    rdfs:label "has extra geometry" ;
+    rdfs:comment "Links a Place to an additional geometry: an alternative representation, or one geometry per part of a composite place. Unbounded." .
+
+qpm:geometryRole a owl:DatatypeProperty ;
+    rdfs:domain qpm:Geometry ;
+    rdfs:range  xsd:string ;
+    rdfs:label "geometry role" ;
+    rdfs:comment "Convenience attribute, 'main' or 'extra'; derivable from whether the geometry is linked by hasMainGeometry or hasExtraGeometry, retained for query convenience in the property graph." .
+
+#------------------------------------------------------------------------------
+# A.8 Country and Hierarchy association
+#------------------------------------------------------------------------------
+
+qpm:hasHierarchy a owl:ObjectProperty ;
+    rdfs:domain qpm:Country ;
+    rdfs:range  qpm:Hierarchy ;
+    rdfs:label "has hierarchy" ;
+    owl:inverseOf qpm:hierarchyOf ;
+    rdfs:comment "Associates a Country with the Hierarchies dividing its extent (at least one, see restrictions)." .
+
+qpm:hierarchyOf a owl:ObjectProperty ;
+    rdfs:domain qpm:Hierarchy ;
+    rdfs:range  qpm:Country ;
+    rdfs:label "hierarchy of" ;
+    owl:inverseOf qpm:hasHierarchy ;
+    rdfs:comment "Inverse of hasHierarchy; each Hierarchy belongs to exactly one Country (see restrictions)." .
+
+#------------------------------------------------------------------------------
+# A.9 Datatype properties (normative)
+#     The canonical identifier of every entity is its IRI. Entities populated
+#     from external datasets carry sourceId and sourceDataset, which make
+#     the graph joinable back to its origins. The legacy integer identifiers
+#     (place_id, spatial_unit_id, hierarchy_id) are not ontology terms; they
+#     may persist in deployments as implementation-local keys and are
+#     documented as such in the property-graph profile.
+#------------------------------------------------------------------------------
+
+qpm:sourceId a owl:DatatypeProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  xsd:string ;
+    rdfs:label "source identifier" ;
+    rdfs:comment "The entity's identifier in its authoritative source dataset (the AGI identifier). Together with sourceDataset, this makes the populated graph joinable back to its origins and identity stable across regenerations and multi-source integration." ;
+    dct:source "Muhajab (PhD thesis, AGI_ID)" .
+
+qpm:sourceDataset a owl:DatatypeProperty ;
+    rdfs:domain qpm:Place ;
+    rdfs:range  xsd:string ;
+    rdfs:label "source dataset" ;
+    rdfs:comment "The name or IRI of the authoritative dataset the entity was populated from (for example an Ordnance Survey or DataMapWales product)." .
+
+qpm:unitName a owl:DatatypeProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  xsd:string ;
+    rdfs:label "unit name" ;
+    rdfs:comment "The Unit's name." .
+
+qpm:unitType a owl:DatatypeProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  xsd:string ;
+    rdfs:label "unit type" ;
+    rdfs:comment "The Unit's category within its hierarchy (for example community, ward, postcode district, S2 face cell)." .
+
+qpm:unitLevel a owl:DatatypeProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  xsd:integer ;
+    rdfs:label "unit level" ;
+    rdfs:comment "The Unit's level within its Hierarchy: 0 for the root, increasing downward. Semantically meaningful (it names a tier defined by the issuing authority and shared by all units at that tier), which is why it is stored, in contrast to nesting depth among BasicPlaces, which is positional only and derived." .
+
+qpm:placeName a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place name" ;
+    rdfs:comment "The BasicPlace's name." .
+
+qpm:placeType a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place type" ;
+    rdfs:comment "The BasicPlace's category." .
+
+qpm:placeFunction a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place function" ;
+    rdfs:comment "The BasicPlace's functional role, where distinct from its category." .
+
+qpm:hierarchyName a owl:DatatypeProperty ;
+    rdfs:domain qpm:Hierarchy ;
+    rdfs:range  xsd:string ;
+    rdfs:label "hierarchy name" ;
+    rdfs:comment "The Hierarchy's name (for example Admin, Electoral, Postal, OS, H3, S2, GADM)." .
+
+qpm:hierarchyLevels a owl:DatatypeProperty ;
+    rdfs:domain qpm:Hierarchy ;
+    rdfs:range  xsd:integer ;
+    rdfs:label "hierarchy levels" ;
+    rdfs:comment "The number of levels in the Hierarchy, a fact about its source." .
+
+qpm:unitsNumber a owl:DatatypeProperty ;
+    rdfs:domain qpm:Hierarchy ;
+    rdfs:range  xsd:integer ;
+    rdfs:label "units number" ;
+    rdfs:comment "The number of Units in the Hierarchy. A maintained statistic, not asserted ground truth; derivable by counting." .
+
+#------------------------------------------------------------------------------
+# A.10 Class restrictions (normative cardinalities)
+#------------------------------------------------------------------------------
+
+qpm:Unit rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:containedBy ;
+    owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Unit
+] .
+
+qpm:Unit rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:belongsToHierarchy ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Hierarchy
+] .
+
+qpm:BasicPlace rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:containedByUnit ;
+    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Unit
+] .
+
+# Per-hierarchy uniqueness of containedByUnit is not expressible in OWL;
+# see qpm-shapes.ttl (shape qpm-sh:PerHierarchyUniqueParent).
+
+qpm:BasicPlace rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:basePlaceParent ;
+    owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:BasicPlace
+] .
+
+qpm:Place rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:hasMainGeometry ;
+    owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Geometry
+] .
+
+qpm:Country rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:hasHierarchy ;
+    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Hierarchy
+] .
+
+qpm:Hierarchy rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty qpm:hierarchyOf ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass qpm:Country
+] .
+
+qpm:Geometry rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty geo:asWKT ;
+    owl:someValuesFrom geo:wktLiteral
+] .
+
+###############################################################################
+# PART B. NON-NORMATIVE ANNEX
+#
+# Documented for completeness; outside the version 1.0 stable surface.
+# Nothing in the derived artefacts or the MSc materials may depend on Part B,
+# and these terms remain free to be revised.
+###############################################################################
+
+#------------------------------------------------------------------------------
+# B.1 Place origin and user-described places
+#------------------------------------------------------------------------------
+
+qpm:placeOrigin a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place origin" ;
+    rdfs:comment "ANNEX. 'sourced' (populated from an external dataset, geometry given) or 'described' (defined by a user's qualitative description, geometry derived from the describing relations). Replaces the retired flags model_source and geometry_source; legacy values map forward (basic, given to sourced; salient, computed to described)." .
+
+qpm:PlaceProvenance a owl:Class ;
+    rdfs:label "Place Provenance" ;
+    rdfs:comment "ANNEX. The record of how a described place was defined: the qualitative relations the user supplied and the places they reference. Provisional vocabulary; expected to be strengthened toward PROV-O alignment when the user-described-places work is published." .
+
+qpm:hasProvenance a owl:ObjectProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  qpm:PlaceProvenance ;
+    rdfs:label "has provenance" ;
+    rdfs:comment "ANNEX. Links a described place to its provenance record." .
+
+qpm:describedRelationship a owl:DatatypeProperty ;
+    rdfs:domain qpm:PlaceProvenance ;
+    rdfs:range  xsd:string ;
+    rdfs:label "described relationship" ;
+    rdfs:comment "ANNEX. A qualitative relation used in the user's description of the place." .
+
+qpm:involvedPlace a owl:ObjectProperty ;
+    rdfs:domain qpm:PlaceProvenance ;
+    rdfs:range  qpm:BasicPlace ;
+    rdfs:label "involved place" ;
+    rdfs:comment "ANNEX. A place referenced in the user's description." .
+
+#------------------------------------------------------------------------------
+# B.2 Grid index hooks
+#     Representation hooks only: grid cells are representable as Units within
+#     abstract Hierarchies.
+#------------------------------------------------------------------------------
+
+qpm:unitH3 a owl:DatatypeProperty ;
+    rdfs:domain qpm:Unit ;
+    rdfs:range  xsd:string ;
+    rdfs:label "unit H3 index" ;
+    rdfs:comment "ANNEX. H3 cell index associated with the Unit, as text." .
+
+qpm:placeH3 a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place H3 index" ;
+    rdfs:comment "ANNEX. H3 cell index associated with the place, as text." .
+
+qpm:placeS2 a owl:DatatypeProperty ;
+    rdfs:domain qpm:BasicPlace ;
+    rdfs:range  xsd:string ;
+    rdfs:label "place S2 index" ;
+    rdfs:comment "ANNEX. S2 cell index associated with the place, as text." .
+
+#------------------------------------------------------------------------------
+# B.3 Cross-hierarchy relations (derived, never stored)
+#     The reified pattern below fixes the earlier serialisation defect in
+#     which the relationship type was attached to the Unit. Cross-hierarchy
+#     relations are extracted on demand over the stored structure; nothing
+#     in this family is ever materialised. The type vocabulary is the working
+#     taxonomy pending definitional optimisation; the proximity-grade values
+#     delegate to the Part A grades.
+#------------------------------------------------------------------------------
+
+qpm:SpatialRelation a owl:Class ;
+    rdfs:label "Spatial Relation (reified)" ;
+    rdfs:comment "ANNEX. A reified spatial relation between two Units, used to express typed cross-hierarchy relations: the type qualifies this relation instance, not either Unit. Derived on demand; never stored." .
+
+qpm:relationSource a owl:ObjectProperty ;
+    rdfs:domain qpm:SpatialRelation ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "relation source" ;
+    rdfs:comment "ANNEX. The subject Unit of a reified spatial relation." .
+
+qpm:relationTarget a owl:ObjectProperty ;
+    rdfs:domain qpm:SpatialRelation ;
+    rdfs:range  qpm:Unit ;
+    rdfs:label "relation target" ;
+    rdfs:comment "ANNEX. The object Unit of a reified spatial relation." .
+
+qpm:relationType a owl:ObjectProperty ;
+    rdfs:domain qpm:SpatialRelation ;
+    rdfs:range  qpm:SpatialRelationshipType ;
+    rdfs:label "relation type" ;
+    rdfs:comment "ANNEX. The type of a reified spatial relation, drawn from the SpatialRelationshipType vocabulary." .
+
+qpm:SpatialRelationshipType a owl:Class ;
+    rdfs:label "Spatial Relationship Type" ;
+    rdfs:comment "ANNEX. Working taxonomy of derivable spatial relation types, principally for cross-hierarchy extraction. Definitions pending optimisation (overlapping pairs such as Overlap/Intersect and Touches/Neighbour are known); the proximity-grade values (Close, Near, Far, VeryFar) delegate to the normative graded proximity definitions. One member, Intersect, is derivable from the graph alone via shared-place inference: a place contained in units of two hierarchies witnesses their intersection." ;
+    owl:oneOf (
+        qpm:Identical qpm:Close qpm:Near qpm:Far qpm:VeryFar
+        qpm:Overlap qpm:Intersect qpm:Touches qpm:Neighbour
+        qpm:CompleteContainment qpm:Disjoint
+        qpm:DirectParentContainment qpm:DirectParentPartialContainment
+        qpm:AncestorCompleteContainment qpm:AncestorPartialContainment
+        qpm:HierarchicalTouch qpm:HierarchicalOverlap
+    ) .
+
+qpm:Identical a qpm:SpatialRelationshipType .
+qpm:Close a qpm:SpatialRelationshipType .
+qpm:Near a qpm:SpatialRelationshipType .
+qpm:Far a qpm:SpatialRelationshipType .
+qpm:VeryFar a qpm:SpatialRelationshipType .
+qpm:Overlap a qpm:SpatialRelationshipType .
+qpm:Intersect a qpm:SpatialRelationshipType .
+qpm:Touches a qpm:SpatialRelationshipType .
+qpm:Neighbour a qpm:SpatialRelationshipType .
+qpm:CompleteContainment a qpm:SpatialRelationshipType .
+qpm:Disjoint a qpm:SpatialRelationshipType .
+qpm:DirectParentContainment a qpm:SpatialRelationshipType .
+qpm:DirectParentPartialContainment a qpm:SpatialRelationshipType .
+qpm:AncestorCompleteContainment a qpm:SpatialRelationshipType .
+qpm:AncestorPartialContainment a qpm:SpatialRelationshipType .
+qpm:HierarchicalTouch a qpm:SpatialRelationshipType .
+qpm:HierarchicalOverlap a qpm:SpatialRelationshipType .
+
+###############################################################################
+# PART C. ABSTRACT HIERARCHY EXEMPLARS (non-normative, illustrative)
+#
+# These show how an abstract hierarchy is expressed in the model when an
+# authoritative hierarchy is absent. Abstract hierarchies are ordinary
+# qpm:Hierarchy instances and need no new classes or properties: the same
+# Unit, containedBy, belongsToHierarchy, and place containment apply. No
+# units are loaded here; these are the named hierarchy declarations plus a
+# worked note, so the model demonstrates its extensibility rather than only
+# asserting it. Populating an abstract hierarchy with units is a data task,
+# not a model change, and requires no change to the property-graph profile
+# or the application (which discover hierarchies and relationship types
+# dynamically).
+#
+# Provenance: the abstract-hierarchy approach was proposed by Abdelmoty and
+# implemented by Muhajab (GADM, with GADM levels guiding which levels of
+# different hierarchies meaningfully interact) and by Satoti (H3, S2 grids).
+# The cross-hierarchy relation RESOLUTION METHODS are research contributions
+# that sit on top of this model and are deliberately not encoded here; the
+# model defines what cross-hierarchy relations are (Part B, SpatialRelation),
+# not how any particular method computes them.
+###############################################################################
+
+qpm:GADM a qpm:Hierarchy ;
+    rdfs:label "GADM" ;
+    qpm:hierarchyName "GADM" ;
+    rdfs:comment "Exemplar abstract hierarchy: the Global Administrative Areas dataset, used as a substitute administrative division of space where an authoritative national hierarchy is missing. Its levels (GADM 0 country, 1 first-level division, 2 second-level, and so on) populate as ordinary Units with containedBy between adjacent levels, exactly as an authoritative hierarchy does. Muhajab additionally uses GADM levels to guide which levels of different hierarchies meaningfully interact when deriving cross-hierarchy relations; that level-correspondence is a method that consumes this hierarchy, not a feature of the hierarchy declaration itself." .
+
+qpm:H3 a qpm:Hierarchy ;
+    rdfs:label "H3" ;
+    qpm:hierarchyName "H3" ;
+    rdfs:comment "Exemplar abstract hierarchy: the H3 discrete global grid. Grid cells at each resolution are Units; a finer cell is containedBy its coarser parent cell, giving a uniform hierarchical division of space independent of any authoritative boundaries. Places relate to H3 cells with the ordinary containedByUnit relation." .
+
+qpm:S2 a qpm:Hierarchy ;
+    rdfs:label "S2" ;
+    qpm:hierarchyName "S2" ;
+    rdfs:comment "Exemplar abstract hierarchy: the S2 discrete global grid, expressed as for H3. S2 cells are Units in a containment hierarchy by cell level. Present in the sample data as level-0 face cells." .

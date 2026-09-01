@@ -1,0 +1,160 @@
+@prefix qpm:    <https://w3id.org/qpm#> .
+@prefix qpm-sh: <https://w3id.org/qpm/shapes#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+
+###############################################################################
+# QPM SHACL Shapes, version 1.0
+#
+# Companion to the canonical ontology (qpm.ttl). These shapes enforce normative
+# model constraints that OWL cannot express. The property-graph profile carries
+# corresponding Cypher validation queries for structural constraints; Cypher
+# queries V6 (geometry cardinality) and V7 (unit hierarchy membership) enforce
+# graph-specific node constraints, while shape CompositePlaceHasParts enforces
+# composite place parts in RDF.
+###############################################################################
+
+qpm-sh:PerHierarchyUniqueParent a sh:NodeShape ;
+    sh:targetClass qpm:BasicPlace ;
+    rdfs:comment "A BasicPlace is contained in at most one Unit per Hierarchy. Violation: two distinct containing units belonging to the same hierarchy." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "BasicPlace has more than one containing Unit within a single Hierarchy." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this ?h
+            WHERE {
+                $this qpm:containedByUnit ?u1 , ?u2 .
+                ?u1 qpm:belongsToHierarchy ?h .
+                ?u2 qpm:belongsToHierarchy ?h .
+                FILTER (?u1 != ?u2)
+            }
+        """ ;
+    ] .
+
+qpm-sh:UnitParentSameHierarchy a sh:NodeShape ;
+    sh:targetClass qpm:Unit ;
+    rdfs:comment "A Unit's parent belongs to the same Hierarchy." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Unit and its parent belong to different Hierarchies." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:containedBy ?p .
+                $this qpm:belongsToHierarchy ?h1 .
+                ?p    qpm:belongsToHierarchy ?h2 .
+                FILTER (?h1 != ?h2)
+            }
+        """ ;
+    ] .
+
+qpm-sh:UnitParentLevelAdjacent a sh:NodeShape ;
+    sh:targetClass qpm:Unit ;
+    rdfs:comment "A Unit's parent sits exactly one level above it: parent unitLevel = child unitLevel - 1." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Unit's parent is not exactly one level above it." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:containedBy ?p .
+                $this qpm:unitLevel ?lc .
+                ?p    qpm:unitLevel ?lp .
+                FILTER (?lp != ?lc - 1)
+            }
+        """ ;
+    ] .
+
+qpm-sh:RootHasNoParentNonRootHasOne a sh:NodeShape ;
+    sh:targetClass qpm:Unit ;
+    rdfs:comment "Exactly the level-0 Unit of each Hierarchy lacks a parent: a unit at level 0 has no containedBy, and a unit at level > 0 has one." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Parent presence inconsistent with unitLevel (root with parent, or non-root without one)." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:unitLevel ?l .
+                OPTIONAL { $this qpm:containedBy ?p }
+                FILTER ( (?l = 0 && bound(?p)) || (?l > 0 && !bound(?p)) )
+            }
+        """ ;
+    ] .
+
+qpm-sh:TouchesSameLevelSameHierarchy a sh:NodeShape ;
+    sh:targetClass qpm:Unit ;
+    rdfs:comment "touches holds only between Units at the same level of the same Hierarchy." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "touches asserted across hierarchies or across levels." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:touches ?v .
+                $this qpm:belongsToHierarchy ?h1 . ?v qpm:belongsToHierarchy ?h2 .
+                $this qpm:unitLevel ?l1 .          ?v qpm:unitLevel ?l2 .
+                FILTER (?h1 != ?h2 || ?l1 != ?l2)
+            }
+        """ ;
+    ] .
+
+qpm-sh:PrimaryDirectionalNoInterveningUnit a sh:NodeShape ;
+    sh:targetClass qpm:Unit ;
+    rdfs:comment "ADVISORY / NON-OPERATIVE IN RDF: The directional primary non-intervening unit constraint requires polygon geometry computations that SPARQL cannot express. The shape SPARQL query contains FILTER(false) and is NOT EVALUATED by pySHACL; operative enforcement is performed by the property-graph validation pipeline (V5). A unit's directional primary is its nearest neighbour in that sector among units sharing the same root, with no intervening unit between the primary and the base unit. In a clean partition the primary touches the base unit (the normal case); where a natural feature separates them the primary may not touch but still has nothing (no unit) between them. This shape flags a primary that has an intervening same-root unit between it and the base, which indicates the upstream 'nearest centroid in sector' heuristic reached across other units rather than recording the true nearest neighbour. The geometric 'between' test is applied with a generous tolerance, since the relation is qualitative and robust to boundary imprecision. Touching itself is NOT required and is not tested; the older PrimaryDirectionalImpliesTouches shape encoded the typical outcome rather than the rule and is retired." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Directional primary has an intervening same-root unit between it and the base unit (reach-across error)." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this ?primary
+            WHERE {
+                { ?primary qpm:primaryNorthOf $this } UNION
+                { ?primary qpm:primarySouthOf $this } UNION
+                { ?primary qpm:primaryEastOf  $this } UNION
+                { ?primary qpm:primaryWestOf  $this }
+                ?primary a qpm:Unit . $this a qpm:Unit .
+                # The full 'no intervening unit, same root, correct sector' test is
+                # geometric and is implemented in the regeneration/validation pipeline
+                # (it requires the unit polygons and a sector/between computation that
+                # SPARQL cannot express). This shape documents the constraint; the
+                # operative check is the pipeline's V5. A pure-graph approximation that
+                # flags primaries whose pair is neither touching nor across an empty gap
+                # cannot be written without geometry, so this shape is advisory in RDF
+                # and authoritative in the property-graph validation.
+                FILTER (false)
+            }
+        """ ;
+    ] .
+
+qpm-sh:DescribedPlaceHasProvenance a sh:NodeShape ;
+    sh:targetClass qpm:BasicPlace ;
+    rdfs:comment "ANNEX-level check: a place with placeOrigin 'described' carries a provenance record; a 'sourced' place carries a sourceId." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "placeOrigin inconsistent with provenance or source identification." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:placeOrigin ?o .
+                FILTER (
+                    (?o = "described" && NOT EXISTS { $this qpm:hasProvenance ?pr }) ||
+                    (?o = "sourced"   && NOT EXISTS { $this qpm:sourceId ?sid })
+                )
+            }
+        """ ;
+    ] .
+
+qpm-sh:CompositePlaceHasParts a sh:NodeShape ;
+    sh:targetClass qpm:CompositePlace ;
+    sh:property [
+        sh:path [ sh:inversePath qpm:partOf ] ;
+        sh:minCount 2 ;
+        sh:message "A composite place has at least two parts linked by qpm:partOf." ;
+    ] .

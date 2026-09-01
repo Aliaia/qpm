@@ -1,0 +1,8 @@
+.DS_Store
+._*
+*~
+.idea/
+.vscode/
+*.swp
+catalog-v001.xml
+*.properties
