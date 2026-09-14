@@ -44,9 +44,10 @@ qpm-sh:UnitParentSameHierarchy a sh:NodeShape ;
             SELECT $this
             WHERE {
                 $this qpm:containedBy ?p .
-                $this qpm:belongsToHierarchy ?h1 .
-                ?p    qpm:belongsToHierarchy ?h2 .
-                FILTER (?h1 != ?h2)
+                FILTER NOT EXISTS {
+                    $this qpm:belongsToHierarchy ?h .
+                    ?p    qpm:belongsToHierarchy ?h .
+                }
             }
         """ ;
     ] .
@@ -106,6 +107,7 @@ qpm-sh:TouchesSameLevelSameHierarchy a sh:NodeShape ;
 
 qpm-sh:PrimaryDirectionalNoInterveningUnit a sh:NodeShape ;
     sh:targetClass qpm:Unit ;
+    sh:deactivated true ;
     rdfs:comment "ADVISORY / NON-OPERATIVE IN RDF: The directional primary non-intervening unit constraint requires polygon geometry computations that SPARQL cannot express. The shape SPARQL query contains FILTER(false) and is NOT EVALUATED by pySHACL; operative enforcement is performed by the property-graph validation pipeline (V5). A unit's directional primary is its nearest neighbour in that sector among units sharing the same root, with no intervening unit between the primary and the base unit. In a clean partition the primary touches the base unit (the normal case); where a natural feature separates them the primary may not touch but still has nothing (no unit) between them. This shape flags a primary that has an intervening same-root unit between it and the base, which indicates the upstream 'nearest centroid in sector' heuristic reached across other units rather than recording the true nearest neighbour. The geometric 'between' test is applied with a generous tolerance, since the relation is qualitative and robust to boundary imprecision. Touching itself is NOT required and is not tested; the older PrimaryDirectionalImpliesTouches shape encoded the typical outcome rather than the rule and is retired." ;
     sh:sparql [
         a sh:SPARQLConstraint ;
@@ -134,19 +136,33 @@ qpm-sh:PrimaryDirectionalNoInterveningUnit a sh:NodeShape ;
 
 qpm-sh:DescribedPlaceHasProvenance a sh:NodeShape ;
     sh:targetClass qpm:BasicPlace ;
-    rdfs:comment "ANNEX-level check: a place with placeOrigin 'described' carries a provenance record; a 'sourced' place carries a sourceId." ;
+    rdfs:comment "A place with placeOrigin 'described' carries a provenance record." ;
     sh:sparql [
         a sh:SPARQLConstraint ;
-        sh:message "placeOrigin inconsistent with provenance or source identification." ;
+        sh:message "A described place carries no provenance record." ;
         sh:select """
             PREFIX qpm: <https://w3id.org/qpm#>
             SELECT $this
             WHERE {
-                $this qpm:placeOrigin ?o .
-                FILTER (
-                    (?o = "described" && NOT EXISTS { $this qpm:hasProvenance ?pr }) ||
-                    (?o = "sourced"   && NOT EXISTS { $this qpm:sourceId ?sid })
-                )
+                $this qpm:placeOrigin "described" .
+                FILTER NOT EXISTS { $this qpm:hasProvenance ?pr }
+            }
+        """ ;
+    ] .
+
+qpm-sh:SourcedPlaceHasIdentifier a sh:NodeShape ;
+    sh:targetClass qpm:BasicPlace ;
+    sh:severity sh:Info ;
+    rdfs:comment "REPORTED, NOT GATED. A place with placeOrigin 'sourced' normally carries a sourceId. Some sourced places legitimately carry none — points the authoritative source supplies no identifier for, kept deliberately and reported as they are, true to the source; a deployment states its count in its release notes. This shape counts them; it does not reject them. Severity is sh:Info so that a conforming graph may still contain them." ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Sourced place with no sourceId (reported, not a violation)." ;
+        sh:select """
+            PREFIX qpm: <https://w3id.org/qpm#>
+            SELECT $this
+            WHERE {
+                $this qpm:placeOrigin "sourced" .
+                FILTER NOT EXISTS { $this qpm:sourceId ?sid }
             }
         """ ;
     ] .

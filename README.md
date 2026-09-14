@@ -1,4 +1,4 @@
-# The Qualitative Place Model (QPM) — ontology and artefacts, version 1.0
+# The Qualitative Place Model (QPM) — ontology and artefacts, version 1.1
 
 QPM is a qualitative model of the *location of places* for geographic knowledge
 graphs. It represents where a place is relationally — through containment paths
@@ -9,16 +9,46 @@ containment, topological adjacency, one primary neighbour per directional
 sector) from which the qualitative completion of a scene is derived by
 reasoning.
 
-- **Ontology IRI:** https://w3id.org/qpm — **version:** 1.0 — **versionIRI:** https://w3id.org/qpm/1.0
+- **Ontology IRI:** https://w3id.org/qpm — **version:** 1.1 — **versionIRI:** https://w3id.org/qpm/1.1 — **prior version:** https://w3id.org/qpm/1.0
   The GeoSPARQL import is preserved rather than merged, so a reasoner needs network access or a local copy of the GeoSPARQL ontology.
 - **Licence:** Creative Commons Attribution 4.0 International (CC BY 4.0), see `LICENSE`.
 - **Creator:** Alia I. Abdelmoty.
+
+## Versions
+
+| Version | File | versionIRI | Status |
+|---|---|---|---|
+| 1.1 | `qpm.ttl` (canonical) and `qpm-1.1.ttl` (frozen, identical) | https://w3id.org/qpm/1.1 | current |
+| 1.0 | `qpm-1.0.ttl` (frozen; byte-identical to `qpm.ttl` at tag `v1.0`) | https://w3id.org/qpm/1.0 | superseded, kept unchanged |
+
+Both versions use the same namespace, `https://w3id.org/qpm#`, and the same
+local names for the same concepts: every class and property of 1.0 is in 1.1
+under the same name. Version 1.1 adds one declared property, `qpm:placeKey`
+(reserved; populated in no released dataset), carries `owl:priorVersion`, and is
+accompanied by corrected SHACL shapes (`qpm-shapes.ttl`: one advisory shape
+deactivated rather than evaluated, one shape corrected for a unit that belongs to
+two hierarchies, and one shape split so that a reported-not-gated condition is
+`sh:Info` rather than a violation). Data that conforms to 1.0 conforms to 1.1.
+Earlier, unpublished drafts of the ontology used snake_case local names
+(`contained_by`, `place_key`, …); data written against those drafts is **not**
+interchangeable with either published version despite sharing the namespace.
+
+## Release notes — 1.1 (13 September 2026)
+
+- `qpm:placeKey` declared (datatype property on `qpm:Place`); reserved, populated in no released dataset.
+- `owl:versionIRI` https://w3id.org/qpm/1.1, `owl:priorVersion` https://w3id.org/qpm/1.0, `dct:modified` 2026-09-13.
+- Shapes: `PrimaryDirectionalNoInterveningUnit` is `sh:deactivated` (its `FILTER(false)` was evaluated by rdflib and suppressed nothing, so it reported 14,860 spurious violations); `UnitParentSameHierarchy` now requires child and parent to *share* a hierarchy, which the country root, a member of two, satisfies (27 spurious violations); `DescribedPlaceHasProvenance` is split, and the `sourced ⇒ sourceId` half is `SourcedPlaceHasIdentifier` at `sh:Info`.
+- Validation of the Wales deployment against these shapes (as RDF: 931,770 triples; 52,821 basic places plus 5 composite places with 131 `partOf` assertions; the deployed property graph holds 122,319 nodes, 52,826 of them places, and 905,317 relationships) reports **0 violations and 375 `sh:Info` results**. The zero follows from the severity change above: under the 1.0 shapes the same 375 nodes were violations. They are 370 source-layer points for which the source supplies no OS identifier (369 unmatched in the current OpenMap Local edition and 1 ambiguous match, kept deliberately and reported as they are) and 5 curated places with a name but no OS identifier; the absence is structural in the source, not an omission of the RDF. pySHACL prints `Conforms: False` whenever any result exists, whatever its severity, so a run over this data reads `Conforms: False` with no violation.
+- Composite places in the Wales deployment are **declared** (name, class, verified part and leaf-unit counts), not detected; detection was tried and withdrawn on 14 September 2026 because the source data underdetermine membership.
+- Data conforming to 1.0 conforms to 1.1; the local names are unchanged.
 
 ## What is in this repository
 
 | Path | What it is |
 |---|---|
-| `qpm.ttl` | The QPM ontology (OWL, Turtle). Part A is the normative version-1.0 core; Part B is a documented non-normative annex. |
+| `qpm.ttl` | The QPM ontology, version 1.1 (OWL, Turtle). Part A is the normative core; Part B is a documented non-normative annex. |
+| `qpm-1.1.ttl` | Frozen copy of the 1.1 ontology, identical to `qpm.ttl` at this release. |
+| `qpm-1.0.ttl` | Frozen copy of the 1.0 ontology as published (tag `v1.0`). Never modified. |
 | `qpm.owl` | The same ontology in RDF/XML, generated from `qpm.ttl`. A convenience serialisation; `qpm.ttl` is canonical. |
 | `qpm-shapes.ttl` | Companion SHACL shapes enforcing the constraints OWL cannot express (per-hierarchy containment uniqueness, unit parent hierarchy and level adjacency, root integrity, touches well-formedness, composite-place parts, place-origin consistency). |
 | `QPM_PropertyGraph_Profile_v1.0.md` | The property-graph profile: the stable contract between the ontology and any Neo4j deployment (node labels, relationship types, properties, derivation patterns, and validation queries). |
@@ -55,4 +85,4 @@ provenance are given in `qpm.ttl` (comments) and the profile.
 ## Citation
 
 Please cite the accompanying paper, *The Qualitative Place Model* (Abdelmoty, in submission),
-and this repository at https://w3id.org/qpm (version 1.0).
+and this repository at https://w3id.org/qpm (version 1.1).

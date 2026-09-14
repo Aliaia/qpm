@@ -8,7 +8,7 @@
 @prefix dct:  <http://purl.org/dc/terms/> .
 
 ###############################################################################
-# The Qualitative Place Model (QPM) Ontology, version 1.1
+# The Qualitative Place Model (QPM) Ontology, version 1.0
 #
 # This file is the canonical, authoritative serialisation of the
 # model. The accompanying paper gives the formal treatment and the
@@ -27,7 +27,7 @@
 # property's comment names the rule that yields it.
 #
 # Structure of this file:
-#   Part A  Normative core (the stable surface; unchanged in local names since 1.0)
+#   Part A  Normative core (the version 1.0 stable surface)
 #   Part B  Non-normative annex (documented, outside the stable surface)
 #   Constraints not expressible in OWL are stated in rdfs:comment text and
 #   enforced by the companion SHACL shapes file (qpm-shapes.ttl) and by the
@@ -42,11 +42,10 @@
     dc:creator "Alia I. Abdelmoty" ;
     dc:contributor "Abdurauf Satoti" , "Hanan Muhajab" ;
     dct:created "2026-06-12"^^xsd:date ;
-    owl:versionIRI  <https://w3id.org/qpm/1.1> ;
-    owl:versionInfo "1.1" ;
-    owl:priorVersion <https://w3id.org/qpm/1.0> ;
+    owl:versionIRI <https://w3id.org/qpm/1.0> ;
+    owl:versionInfo "1.0" ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
-    dct:modified "2026-09-13"^^xsd:date ;
+    dct:modified "2026-08-22"^^xsd:date ;
     dct:source "Abdelmoty (1995), Qualitative Spatial Representation and Reasoning, and a Geographic Data Model, PhD thesis, Heriot-Watt University: origination of the qualitative frame of reference (three axes), the graded proximity scale (very-close, close, far, very-far by zone decomposition), the composite-object constructs (connected vs disconnected, fused-association, Hollow Enclosure), and the multiple-representation seed of multi-hierarchy. The minimal-storage containment principle appears here, adopted from Worboys and Bafakos." ,
                "El-Geresy and Abdelmoty (c.2000 ring-structure formalism, jointly published): the Adjacency-Orientation Matrix, the per-adjacency encoding of orientation." ,
                "Abdelmoty, El-Geresy and Smart (2010), Reasoning with Geospatial Semantics on the Linked Data Web (extended SeCoGIS 2010 paper): restatement of the frame of reference, graded proximity and composite place pattern in the place idiom; Place and Populated-Place definitions for linked data." ,
@@ -354,12 +353,6 @@ qpm:sourceId a owl:DatatypeProperty ;
     rdfs:label "source identifier" ;
     rdfs:comment "The entity's identifier in its authoritative source dataset (the AGI identifier). Together with sourceDataset, this makes the populated graph joinable back to its origins and identity stable across regenerations and multi-source integration." ;
     dct:source "Muhajab (PhD thesis, AGI_ID)" .
-
-qpm:placeKey a owl:DatatypeProperty ;
-    rdfs:label "place key" ;
-    rdfs:domain qpm:Place ;
-    rdfs:range xsd:string ;
-    rdfs:comment "A key identifying a place within a deployment. Declared in version 1.1 and not yet populated in any released dataset." .
 
 qpm:sourceDataset a owl:DatatypeProperty ;
     rdfs:domain qpm:Place ;
