@@ -11,7 +11,7 @@ reasoning.
 
 - **Ontology IRI:** https://w3id.org/qpm — **version:** 1.1 — **versionIRI:** https://w3id.org/qpm/1.1 — **prior version:** https://w3id.org/qpm/1.0
   The GeoSPARQL import is preserved rather than merged, so a reasoner needs network access or a local copy of the GeoSPARQL ontology.
-- **Licence:** Creative Commons Attribution 4.0 International (CC BY 4.0), see `LICENSE`.
+- **Licence:** Creative Commons Attribution 4.0 International (CC BY 4.0), see `LICENSE`, for the ontology and the authors' own artefacts. Files that carry Ordnance Survey-derived content are used under the Open Government Licence and carry the attribution in `ATTRIBUTION.md`.
 - **Creator:** Alia I. Abdelmoty.
 
 ## Versions
@@ -40,6 +40,7 @@ interchangeable with either published version despite sharing the namespace.
 - Shapes: `PrimaryDirectionalNoInterveningUnit` is `sh:deactivated` (its `FILTER(false)` was evaluated by rdflib and suppressed nothing, so it reported 14,860 spurious violations); `UnitParentSameHierarchy` now requires child and parent to *share* a hierarchy, which the country root, a member of two, satisfies (27 spurious violations); `DescribedPlaceHasProvenance` is split, and the `sourced ⇒ sourceId` half is `SourcedPlaceHasIdentifier` at `sh:Info`.
 - Validation of the Wales deployment against these shapes (as RDF: 931,770 triples; 52,821 basic places plus 5 composite places with 131 `partOf` assertions; the deployed property graph holds 122,319 nodes, 52,826 of them places, and 905,317 relationships) reports **0 violations and 375 `sh:Info` results**. The zero follows from the severity change above: under the 1.0 shapes the same 375 nodes were violations. They are 370 source-layer points for which the source supplies no OS identifier (369 unmatched in the current OpenMap Local edition and 1 ambiguous match, kept deliberately and reported as they are) and 5 curated places with a name but no OS identifier; the absence is structural in the source, not an omission of the RDF. pySHACL prints `Conforms: False` whenever any result exists, whatever its severity, so a run over this data reads `Conforms: False` with no violation.
 - Composite places in the Wales deployment are **declared** (name, class, verified part and leaf-unit counts), not detected; detection was tried and withdrawn on 14 September 2026 because the source data underdetermine membership.
+- **Deployment revised 22 September 2026 (ontology and shapes unchanged).** Five hand-curated Cardiff places, appended to the place layer in 2025 for a demonstration composite, were established to be OpenStreetMap features rather than Ordnance Survey ones and were removed, so that the deployment has one data source (Ordnance Survey OpenData) and one data licence; the curated civic composite went with them, and the four remaining composites are all declared. The figures above therefore read, for the current deployment: **931,692 triples; 52,816 basic places plus 4 composite places with 126 `partOf` assertions; 122,308 nodes, 52,820 of them places, and 905,234 relationships; 0 violations and 370 `sh:Info` results**, all of them `SourcedPlaceHasIdentifier` on the 370 source-layer points described above. The five removed rows were the "5 curated places with a name but no OS identifier" of the 13 September note. The 13 September figures stand as the record of that date.
 - Data conforming to 1.0 conforms to 1.1; the local names are unchanged.
 
 ## What is in this repository
@@ -81,6 +82,18 @@ cone tables in `composition_tables.json`. Places are located in one leaf unit pe
 hierarchy; distributed places are composites whose parts are nested places, so
 each part keeps a unique parent per hierarchy. Full derivation rules and their
 provenance are given in `qpm.ttl` (comments) and the profile.
+
+## Attribution
+
+The grounding study (`grounding-study/`) names places and units drawn from a knowledge graph built from Ordnance
+Survey OpenData products (OS OpenMap Local, OS Boundary-Line, OS Code-Point Open), used under the Open Government
+Licence v3.0. Wherever that content appears:
+
+> Contains OS data © Crown copyright and database right 2026.
+> Contains Royal Mail data © Royal Mail copyright and database right 2026.
+> Contains National Statistics data © Crown copyright and database right 2026.
+
+`ATTRIBUTION.md` says which files, and states the licence position in full.
 
 ## Citation
 

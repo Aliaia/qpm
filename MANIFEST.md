@@ -18,7 +18,7 @@ sha256 shown as first 12 hex.
 | `validation/geometric_checks.py` | `4e2bab95ad8c` | Geometric checks: place-in-leaf + unit-in-parent. |
 | `validation/validation_V1_V8.cypher` | `6a659344d058` | V1–V8 as Cypher. |
 | `grounding-study/PARTB_RESULTS.md` | `12d78c48d6b9` | Model-grounding study artefact. |
-| `grounding-study/README_partB.md` | `a29319524f46` | Model-grounding study artefact. |
+| `grounding-study/README_partB.md` | `0c0ccda2537b` | Model-grounding study artefact; carries the Ordnance Survey attribution for the folder (22 September 2026). |
 | `grounding-study/generate_probe_set.py` | `8468a4942cbf` | Model-grounding study artefact. |
 | `grounding-study/partB_raw_responses.jsonl` | `9f5edec9c955` | Model-grounding study artefact. |
 | `grounding-study/partB_results.csv` | `dd1ce67c4765` | Model-grounding study artefact. |
@@ -26,7 +26,8 @@ sha256 shown as first 12 hex.
 | `grounding-study/probe_set_4sector.csv` | `0a16f7f77fa1` | Model-grounding study artefact. |
 | `grounding-study/run_partB.py` | `29b26def8872` | Model-grounding study artefact. |
 | `grounding-study/score_partB.py` | `9cbf6bdb1b4b` | Model-grounding study artefact. |
-| `README.md` | `8e24c88c05e7` | Repository README, with the version table and the 1.1 release notes. |
+| `ATTRIBUTION.md` | `00fbcf37faa0` | Ordnance Survey OpenData attribution and the licence position per file; added 22 September 2026, correcting an omission in the published grounding-study files. |
+| `README.md` | `29398911b3ab` | Repository README, with the version table, the 1.1 release notes, the 22 September 2026 deployment revision and the Attribution section. |
 | `LICENSE` | `93714b5f775e` | CC BY 4.0 full legal code + attribution header (Alia I. Abdelmoty). |
 
 ## Verification record — 1.1 (2026-09-13)

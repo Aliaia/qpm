@@ -1,5 +1,11 @@
 # Part B — querying protocol: how to run
 
+> **Attribution.** The probe set and every results file in this folder name places and units drawn from a
+> knowledge graph built from Ordnance Survey OpenData (OS OpenMap Local, OS Boundary-Line, OS Code-Point
+> Open), used under the Open Government Licence v3.0. Contains OS data © Crown copyright and database right
+> 2026. Contains Royal Mail data © Royal Mail copyright and database right 2026. Contains National Statistics
+> data © Crown copyright and database right 2026. See `../ATTRIBUTION.md`.
+
 **I could not run this from the analysis sandbox:** it has no OpenAI API key, no `openai` SDK,
 and `api.openai.com` is blocked by the proxy (403 on CONNECT — the same allowlist that blocked
 pip/npm). The 180 requests must run where the API is reachable. Everything else is ready.
