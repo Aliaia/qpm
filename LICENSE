@@ -1,15 +1,26 @@
-The Qualitative Place Model (QPM) ontology and accompanying artefacts in this
-repository are licensed under the Creative Commons Attribution 4.0 International
-License (CC BY 4.0).
+The Qualitative Place Model (QPM) ontology and the authors' own artefacts in
+this repository -- the ontology in its serialisations, the SHACL shapes, the
+property-graph profile, the composition tables, the validation suite, the
+provenance document and the scripts -- are licensed under the Creative Commons
+Attribution 4.0 International License (CC BY 4.0).
 
 Copyright (c) 2026 Alia I. Abdelmoty.
+
+Files that carry Ordnance Survey-derived content are NOT licensed under CC BY
+4.0. They are the four grounding-study files named in ATTRIBUTION.md, which
+contain place and unit names drawn from a knowledge graph built from Ordnance
+Survey OpenData (OS OpenMap Local, OS Boundary-Line, OS Code-Point Open). That
+content is used and made available under the Open Government Licence v3.0
+(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
+with the attribution statement given in ATTRIBUTION.md. The two licences attach
+to different files; no file is under both.
 
 You are free to share and adapt the material for any purpose, even commercially,
 under the terms below. Full licence text follows; the canonical version is at
 https://creativecommons.org/licenses/by/4.0/legalcode
 
 To cite this artefact, please cite the accompanying paper and this repository at
-https://w3id.org/qpm (version 1.0).
+https://w3id.org/qpm (version 1.1).
 
 =======================================================================
 

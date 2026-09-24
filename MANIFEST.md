@@ -28,7 +28,7 @@ sha256 shown as first 12 hex.
 | `grounding-study/score_partB.py` | `9cbf6bdb1b4b` | Model-grounding study artefact. |
 | `ATTRIBUTION.md` | `00fbcf37faa0` | Ordnance Survey OpenData attribution and the licence position per file; added 22 September 2026, correcting an omission in the published grounding-study files. |
 | `README.md` | `29398911b3ab` | Repository README, with the version table, the 1.1 release notes, the 22 September 2026 deployment revision and the Attribution section. |
-| `LICENSE` | `93714b5f775e` | CC BY 4.0 full legal code + attribution header (Alia I. Abdelmoty). |
+| `LICENSE` | `8c25b8a909c0` | CC BY 4.0 full legal code + attribution header (Alia I. Abdelmoty). 24 Sep 2026: the OS-derived grounding-study files carved out of the CC BY 4.0 claim (OGL v3.0, see `ATTRIBUTION.md`); citation line corrected to version 1.1. |
 
 ## Verification record — 1.1 (2026-09-13)
 
